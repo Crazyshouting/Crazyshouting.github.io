@@ -1,0 +1,531 @@
+
+ <!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Chatgpt 原理-1 | Hi there</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="VanDarkholme">
+    
+
+    
+    <meta name="description" content="Chatgpt 原理分析-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chatgpt 原理-1">
+<meta property="og:url" content="http://www.bing.com/2024/02/25/chatgpt_intruduction0/index.html">
+<meta property="og:site_name" content="Hi there">
+<meta property="og:description" content="Chatgpt 原理分析-1">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://www.bing.com/pic_chatgpt_intr0/5_1.png">
+<meta property="article:published_time" content="2024-02-25T05:30:32.000Z">
+<meta property="article:modified_time" content="2024-02-25T09:10:35.209Z">
+<meta property="article:author" content="VanDarkholme">
+<meta property="article:tag" content="Chatgpt">
+<meta property="article:tag" content="原理">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="NLP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.bing.com/pic_chatgpt_intr0/5_1.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Hi there" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Hi there" title="Hi there"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Hi there">Hi there</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:www.bing.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2024/02/25/chatgpt_intruduction0/" title="Chatgpt 原理-1" itemprop="url">Chatgpt 原理-1</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="VanDarkholme" target="_blank" itemprop="author">VanDarkholme</a>
+		
+  <p class="article-time">
+    <time datetime="2024-02-25T05:30:32.000Z" itemprop="datePublished"> Published 2024-02-25</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">Contents</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E7%AB%A0%E7%9B%AE%E5%BD%95%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">文章目录：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="toc-number">2.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="toc-number">3.</span> <span class="toc-text">相关概念</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%88%86%E8%AF%8D"><span class="toc-number"></span> <span class="toc-text">1. 分词</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-one-hot"><span class="toc-number"></span> <span class="toc-text">2. one-hot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-tf-idf-%E5%90%91%E9%87%8F"><span class="toc-number"></span> <span class="toc-text">3. tf-idf 向量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-word2vec"><span class="toc-number"></span> <span class="toc-text">4. word2vec</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-word2vec-%E7%BD%91%E7%BB%9C"><span class="toc-number"></span> <span class="toc-text">5. word2vec 网络</span></a>
+		
+		</div>
+		
+		<p>Chatgpt 原理分析-1</p>
+<span id="more"></span>
+<h3 id="文章目录："><a href="#文章目录：" class="headerlink" title="文章目录："></a>文章目录：</h3><p><a href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2">写在前面</a><br><a href="#%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5">相关概念</a><br><a href="#1-%E5%88%86%E8%AF%8D">1 分词</a><br><a href="#2-one-hot">2 one-hot</a><br><a href="#3-tf-idf-%E5%90%91%E9%87%8F">3 tf-idf 向量</a><br><a href="#4-word2vec">4 word2vec</a><br><a href="#5-word2vec-%E7%BD%91%E7%BB%9C">5 word2vec 网络</a></p>
+<h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>&emsp;&emsp; 你可能听说过计算机里面图片的表示方法，如 RGB、YUV 等相关概念，那么就知道一张图片一般有 3 个通道来进行表示，每个通道上都是一个矩阵，矩阵中的一个数字就是一个像素、一个离散的数据。例如，在某个像素上的三通道数值是 (255, 255, 255)，那么这个像素就是白色，这很容易理解，一些图像相关的深度学习任务可能会对图片进行处理，如进行灰度图片转化，得到的就是一个单一通道的<strong>矩阵数据</strong>，后续再进行神经网络的特征提取。<br>&emsp;&emsp; 然而在自然语言处理任务中，文字是以一种什么方式在计算机上来进行表示？本文将对这些表示方法进行阐述，以此帮助部分需要从 0 开始接触 NLP 的同学，一直到目前较为火热的 Chatgpt 的学习为止。<br>&emsp;&emsp; 文章肯定通俗易懂，相对的废话也比较多，但比较适合零基础的学习者。如果发现错误，请互相讨论和指正！如果想要使用chatgpt的同学也可以[参考这篇]<a href="/2024/02/01/chatgpt_register/" title="Chatgpt 介绍和注册流程">参考这篇 Chatgpt 注册使用方法</a></p>
+<h3 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">语料库：本质上就是一堆文字资源，可以是一篇文章，甚至一个字（单词）、一句话等，也可以是一个地方或</span><br><span class="line">       国家乃至全世界所有的书籍等里面的字。但一般情况下主要是针对自己任务中的文字资源，比</span><br><span class="line">       如我们要进行一个新闻内容分类的任务，你收集了<span class="number">10</span> 种类别的新闻，一共<span class="number">1000</span>条新闻，那这就是一</span><br><span class="line">       个语料库。而对于 Chatgpt 来说涵盖了各行各业的文字资料，它的语料库十分庞大，夸张点说覆</span><br><span class="line">       盖了所有语言的资料（由于英文或外文资料更为丰富，且 openai 不会受到一些墙之类的因素影响，</span><br><span class="line">       因此国内做语言大模型的干不过 chatgpt 是理所当然的，但这只是其中一个的原因）</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="1-分词"><a href="#1-分词" class="headerlink" title="1. 分词"></a>1. 分词</h2><p>&emsp;&emsp; 一个句子的基础元素是一个个字，因此在计算机中想要表达一句话，一个最先要做的工作就是将句子分成一个个字，在英文当中每个句子的单词是已经天然分好的，但对于中文来说，两个字分开后所表达的意思会很不一样，如 “我们是好朋友” 中 “我们” 是一个主体，拆开后“们” 字单独存在就会变得奇怪，因此在中文的语言处理任务中需要进行分词的操作。分词的方法有很多种，这里会介绍其中常用的方法，再介绍相关的分词工具——jieba。<br>&emsp;&emsp; 要分词首先需要一个巨大的词典库（词典库内容需保证尽量正确），然后再对句子或语料库内容进行字符串最大匹配算法处理（正向、逆向、双向三种最大匹配算法）或其他优秀的算法处理，这里以正向最大匹配算法对下面句子分词为例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string = &quot;我今天早上的时候吃过饭了&quot;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>初始状态下我们假设一个词的最长长度为 6，从 string[0] 开始以长度 6 扫描句子，发现前 6 个字符 “我今天早上的” 在词典库种不存在，因此这个字符串不是词语，接下来缩短长度为 5，发现前 5 个字符也不是词语，如此反复，发现长度为 1 时，“我” 出现在了词典库里面，因此“我” 被分词</li>
+<li>接下来从 string[1] 以长度为 6 扫描，一直到长度为 2 时发现 “今天” 是词语，完成 “今天” 的分词，如此反复，就得到了如下的分词结果：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">string[] = [&quot;我&quot;，&quot;今天&quot;, &quot;早上&quot;, &quot;的&quot;, &quot;时候&quot;, &quot;吃过&quot;, &quot;饭&quot;, &quot;了&quot;] 或</span><br><span class="line">string[] = [&quot;我&quot;，&quot;今天&quot;, &quot;早上的&quot;, &quot;时候&quot;, &quot;吃过饭&quot;, &quot;了&quot;]  或</span><br><span class="line">string[] = [&quot;我&quot;，&quot;今天&quot;, &quot;早上&quot;,  &quot;时候&quot;, &quot;吃过&quot;, &quot;饭&quot;] </span><br></pre></td></tr></table></figure>
+&emsp;&emsp; 具体会分成哪种还是得依据准备的词典决定，同时我们注意到第三种情况少去 “了”、“的” 这种词，原因是此处的两个字没太大实际意义，只是一些语气词等，去除后对句子的意思影响不大，交给计算机处理还能更简洁。<br>&emsp;&emsp;  一般情况下我们当然不会特意地去准备这么一个巨大的词典，目前有相当多的工具可以完成分词的工作，如 <a target="_blank" rel="noopener" href="https://github.com/fxsjy/jieba.git">jieba</a> 等。（PS: jieba 即结巴，说不出完整的话，不就是分词么？妙啊！）在对整个语料库完成分词后，我们就得到了在对应语言任务里可能出现的所有词语，接下来就可以进行下一步工作了，即：将文字或词语转换为可供神经网络特征提取的矩阵，这个矩阵就和一张图片一样。<br>&emsp;&emsp; 如果不懂什么是神经网络也没关系，我们可以把这个理解为一个盒子、一个机器，我们把一个<strong>句子矩阵</strong>从一端输入到这个盒子或机器里面，它就会在盒子内部分析这个句子的语义信息，用数学模型得到这个句子想表达的意思，然后从另一端输出结果，这个输出和自己的任务有关系，比如你的任务是把这个句子进行分类，它就可能输出这个句子类别是情感，如果任务是回答这个句子（就和 Chatgpt 一样），那输出就是一个回答的句子。总之，神经网络就是个黑盒子，它的输入是<strong>句子矩阵</strong>，输出依据任务决定。<br>&emsp; &emsp; 那什么是句子矩阵？我们前面对句子进行了分词，得到一个个单独的词语和字，计算机没法对些文字进行表示（不是 ascll 码、unicode 那一套），因此这里我们还需要将这些词进行<strong>向量化</strong>操作，即：将每次词用一个向量表示，具体见下文。</li>
+</ol>
+<hr>
+<h2 id="2-one-hot"><a href="#2-one-hot" class="headerlink" title="2. one-hot"></a>2. one-hot</h2><p>&emsp;&emsp; one-hot 是最为简单的将文字向量化方法，它的方式非常简单，比如对语料库分词后，我们得到 &#x3D;&#x3D;( [“我”，”今天”, “早上”, “时候”, “吃过”, “饭”] )&#x3D;&#x3D; 的分词结果，那对这个语料库分词结果的 one-hot 表示方法为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">dict =&#123;</span><br><span class="line">&quot;我&quot; :  [1, 0, 0, 0, 0, 0],</span><br><span class="line">&quot;今天&quot;: [0, 1, 0, 0, 0, 0],</span><br><span class="line">&quot;早上&quot;: [0, 0, 1, 0, 0, 0],</span><br><span class="line">&quot;时候&quot;: [0, 0, 0, 1, 0, 0],</span><br><span class="line">&quot;吃过&quot;: [0, 0, 0, 0, 1, 0],</span><br><span class="line">&quot;饭&quot; :  [0, 0, 0, 0, 0, 1]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp; 是不是非常简单明了？直接用向量里面哪个位置为 1 来表明这是哪个词，这句话的<strong>句子矩阵</strong>我们就可以直接用这个单位矩阵表示。同时我们也可以把这些向量相加，比如 “我吃过饭” 这句新的话，那它的<strong>句子矩阵</strong>就是 &#x3D;&#x3D;([1, 0, 0, 0, 1, 1])&#x3D;&#x3D;。其他文章里有更加详细或深入的 one-hot 描述，感兴趣的同学可以进一步搜索。还有一个问题就是，没在词典中出现的词应该如何表示？这里提供一些思路就是，对于这些未出现过的词，有些表示方法里会直接报错（word2vec），或者直接给未出现的词定义一个默认的词向量表示方法，诸如此类。<br>&emsp;&emsp; 这种文本的表示方法的缺点也显而易见，一个词库的词语有 10000 个的时候每个词向量长度就是10000，这太浪费空间了。而且对于一些语义类似的词语，如 “早饭”、“吃饭”，这种表示方法没法表现出相近的关系。</p>
+<hr>
+<h2 id="3-tf-idf-向量"><a href="#3-tf-idf-向量" class="headerlink" title="3. tf-idf 向量"></a>3. tf-idf 向量</h2><p>&emsp;&emsp; 出现奇怪的英文字符了，不用担心，这个理解起来十分简单，本质上就是依据<strong>词频</strong>权重来确定一个词向量。下面进行具体解释：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TF(Term Frequency) = 某个词在语料库中某文档出现的次数 / 语料库某文档所有词的数量  </span><br><span class="line">IDF(Inverse Document Frequency) = log(语料库中的文档数 / (包含该词的文档数 + 1))</span><br><span class="line">最终的值为：</span><br><span class="line">tf-idf = TF × IDF</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp; 最终每个词在每个文档出现的值相加，得到这个词在语料库的权重值 tf-idf，例如 &#x3D;&#x3D;( [“我”，”今天”, “早上”, “时候”, “吃过”, “饭”] )&#x3D;&#x3D; 计算每个值后得到的 tf-idf 值为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[0.453, 0.112, 0.001, 0.233, 0.912, 0.231]</span><br><span class="line">分开来就是：</span><br><span class="line">&quot;我&quot; :  [0.453, 0, 0, 0, 0, 0],</span><br><span class="line">&quot;今天&quot;: [0, 0.112, 0, 0, 0, 0],</span><br><span class="line">&quot;早上&quot;: [0, 0, 0.001, 0, 0, 0],</span><br><span class="line">&quot;时候&quot;: [0, 0, 0, 0.233, 0, 0],</span><br><span class="line">&quot;吃过&quot;: [0, 0, 0, 0, 0.912, 0],</span><br><span class="line">&quot;饭&quot; :  [0, 0, 0, 0, 0, 0.231]</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp; 这种表示方法下每个词具有不同的权重，相比 one-hot 也更为合理。<a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_37870649/article/details/79475387?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-1-79475387-blog-105161327.235%5Ev43%5Epc_blog_bottom_relevance_base4&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-1-79475387-blog-105161327.235%5Ev43%5Epc_blog_bottom_relevance_base4&utm_relevant_index=2">参考链接</a></p>
+<h2 id="4-word2vec"><a href="#4-word2vec" class="headerlink" title="4. word2vec"></a>4. word2vec</h2><p>&emsp;&emsp; 从这里开始是一些基于神经网络的方法。先直接上 word2vec 的词向量表示方法，再进行原理的解释，同样以 [“我”，”今天”, “早上”, “时候”, “吃过”, “饭”]  为例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&quot;我&quot; :  [0.1, 0.2, 0.3],</span><br><span class="line">&quot;今天&quot;: [0.5, 0.1, 0.1],</span><br><span class="line">&quot;早上&quot;: [0.6, 0.05, 0.01],</span><br><span class="line">&quot;时候&quot;: [0.99, 0, 0.32],</span><br><span class="line">&quot;吃过&quot;: [0.43, 0.912, 0],</span><br><span class="line">&quot;饭&quot; :  [0.21, 0.87, 0.231]</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp; 我们发现词向量的数量没有变，同样是和词的数量保持一致，但是每个向量的长度变短了，相比于原本的离散表示方法，所需的空间更小了。实际上在 word2vec 里面，词向量的维度（长度）我们是可以自己决定的，方法就是修改第一层神经网络的参数个数。这里向量中的数值实际上就是 word2vec 网络中的神经元参数。一般来说在长度在 150 或 300 对 word2vec 网络进行训练就能满足语料库的覆盖，或者说其复杂度满足语料库的信息量，为了举例我们这里的词向量维度是 3。<br>&emsp;&emsp; 假设我们现在已经训练完成了，经过 word2vec 训练后，我们发现 “早上”、“今天” 两个向量各个维度的值较为接近（向量内积较大），因为语义中他们的关系较大，而 “早上” 和  “我们” 两个词的积较小，相关度不是那么大，这里不需要问为什么，词库中的向量经过训练收敛后一般来说大部分的词向量都具有参考性。</p>
+<hr>
+<h2 id="5-word2vec-网络"><a href="#5-word2vec-网络" class="headerlink" title="5. word2vec 网络"></a>5. word2vec 网络</h2><p>&emsp;&emsp; 想要完全了解 word2vec，需要一定的神经网络基础，本质上神经网络模拟的是生物中人神经元的运作方式，如果你还不了解什么是神经网络，可以先看我写的一个<a target="_blank" rel="noopener" href="https://blog.csdn.net/lanceloter/article/details/136017386?spm=1001.2014.3001.5502">简单例子</a>。word2vec 有两种网络模型，左边为 c-bow 模型，右边为 skip-gram 模型：<br><img src="/pic_chatgpt_intr0/5_1.png"></p>
+<p>&emsp;&emsp; 这两个模型的区别就是，对于语料库中的一句话，将这句话分词，并用 one-hot 方法表示每个词，以 n 个词为一组，再在将其中的某个词删去，作为对应的输入，然后用网络预测这个词是什么，skip-gram 则是保留一个词，来预测其他所有词的概率，以此遍历整个语料库中的文字，不断重复上述过程。无论是 c-bow 还是 skip-gram，它们都只有一层神经元，以 c-bow 模型为例，在这层神经元的左边，每个神经元和每个输入的词都有一个权重参数连接，例如，假设有 1000 个词，150 个神经元，这里的1000个词和每个神经元都有一个权重参数，因此我们就能得到一个 1000×150 的矩阵，输入的值经过神经元层后，变成了 150 个数值，再输出到神经元层的右边，右边是一个150 ×1000 的矩阵，但是由于输入的时候删掉了一个词，那接下来这个右边的矩阵参数会根据删去词的 one-hot 作为真实值进行<strong>自监督训练</strong>，作为输入的这句话经过多次的训练后能够逐渐正确地预测被删去的词是哪一个，这样就完成了神经网络的收敛&#x2F;训练，在训练后，我们可以将神经元左侧的矩阵作为词向量，得到一种更为高级、准确的文本表示方法。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Chatgpt/">Chatgpt</a><a href="/tags/原理/">原理</a><a href="/tags/深度学习/">深度学习</a><a href="/tags/NLP/">NLP</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://www.bing.com/2024/02/25/chatgpt_intruduction0/" data-title="Chatgpt 原理-1 | Hi there" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2024/02/01/chatgpt_update/"  title="Chatgpt 升级 GPT4 流程">
+ <strong>下一篇：</strong><br/> 
+ <span>Chatgpt 升级 GPT4 流程
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">Contents</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E7%AB%A0%E7%9B%AE%E5%BD%95%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">文章目录：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="toc-number">2.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="toc-number">3.</span> <span class="toc-text">相关概念</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%88%86%E8%AF%8D"><span class="toc-number"></span> <span class="toc-text">1. 分词</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-one-hot"><span class="toc-number"></span> <span class="toc-text">2. one-hot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-tf-idf-%E5%90%91%E9%87%8F"><span class="toc-number"></span> <span class="toc-text">3. tf-idf 向量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-word2vec"><span class="toc-number"></span> <span class="toc-text">4. word2vec</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-word2vec-%E7%BD%91%E7%BB%9C"><span class="toc-number"></span> <span class="toc-text">5. word2vec 网络</span></a>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">Tags</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Chatgpt/" title="Chatgpt">Chatgpt<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/注册/" title="注册">注册<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/升级/" title="升级">升级<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/onlyfans/" title="onlyfans">onlyfans<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/虚拟开卡/" title="虚拟开卡">虚拟开卡<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/订阅/" title="订阅">订阅<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/付费/" title="付费">付费<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Chatgpt教程/" title="Chatgpt教程">Chatgpt教程<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/原理/" title="原理">原理<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/深度学习/" title="深度学习">深度学习<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/NLP/" title="NLP">NLP<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">Links</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://coderq.com" target="_blank" title="一个面向程序员交流分享的新一代社区">码农圈</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://wuchong.me" target="_blank" title="Jark&#39;s Blog">Jark&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">Weibo</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=&verifier=808080&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello , my dear friend. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/808080" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2024 
+		
+		<a href="/about" target="_blank" title="VanDarkholme">VanDarkholme</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?68c762d29568e20c063a1b34324d642c";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
